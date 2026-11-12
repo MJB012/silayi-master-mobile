@@ -1,43 +1,78 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# ==========================================================
+# Silayi Master Mobile (Expo / React Native) - Git Ignore
+# ==========================================================
 
-# dependencies
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
 
-# Expo
+# Expo & Build artifacts
 .expo/
 dist/
 web-build/
 expo-env.d.ts
 
-# Native
-.kotlin/
+# Environment and Secret credential files (NEVER commit to GitHub)
+.env
+.env.*
+.env*.local
+!.env.example
+
+# Native Keystores, Certificates & Secrets
 *.orig.*
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
+*.pem
 *.mobileprovision
 
-# Metro
+# Native generated builds
+.kotlin/
+.gradle/
+build/
+/ios
+/android
+
+# Metro Bundler cache
 .metro-health-check*
 
-# debug
+# Logs & Debugging
+logs
+*.log
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+pnpm-debug.*
 
-# macOS
+# OS Generated Files
 .DS_Store
-*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 
-# local env files
-.env*.local
+# Testing & Coverage
+coverage/
+.nyc_output/
 
-# typescript
+# IDEs, Editors & AI Tool configs
+.idea/
+.claude/
+.cursor/
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# TypeScript cache
 *.tsbuildinfo
-
-example
-
-# generated native folders
-/ios
-/android

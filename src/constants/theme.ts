@@ -14,15 +14,47 @@ export const Colors = {
     backgroundElement: '#F0F0F3',
     backgroundSelected: '#E0E1E6',
     textSecondary: '#60646C',
+    primary: '#1E3A8A',
+    accent: '#D97706',
+    border: '#E2E8F0',
+    inputBg: '#F8FAFC',
+    card: '#FFFFFF',
+    error: '#EF4444',
   },
   dark: {
     text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    background: '#0B0F19',
+    backgroundElement: '#1E293B',
+    backgroundSelected: '#334155',
+    textSecondary: '#94A3B8',
+    primary: '#3B82F6',
+    accent: '#F59E0B',
+    border: '#334155',
+    inputBg: '#111827',
+    card: '#1E293B',
+    error: '#F87171',
   },
 } as const;
+
+export const BrandColors = {
+  primary: '#1E3A8A', // Royal Tailor Blue
+  primaryLight: '#2563EB',
+  primaryDark: '#0F172A',
+  accent: '#D97706', // Golden Stitch / Brass Measuring Tape
+  accentLight: '#F59E0B',
+  accentMuted: '#FEF3C7',
+  success: '#10B981',
+  error: '#EF4444',
+  errorBg: '#FEF2F2',
+  border: '#E2E8F0',
+  borderDark: '#334155',
+  card: '#FFFFFF',
+  cardDark: '#1E293B',
+  inputBg: '#F8FAFC',
+  inputBgDark: '#0F172A',
+  mutedText: '#64748B',
+  placeholder: '#94A3B8',
+};
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 

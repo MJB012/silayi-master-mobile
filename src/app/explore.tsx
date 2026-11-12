@@ -1,180 +1,254 @@
-import { Image } from 'expo-image';
-import { SymbolView } from 'expo-symbols';
-import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ExternalLink } from '@/components/external-link';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Collapsible } from '@/components/ui/collapsible';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { BottomTabInset, BrandColors, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-export default function TabTwoScreen() {
+export default function ExploreScreen() {
   const safeAreaInsets = useSafeAreaInsets();
-  const insets = {
-    ...safeAreaInsets,
-    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
-  };
   const theme = useTheme();
 
-  const contentPlatformStyle = Platform.select({
-    android: {
-      paddingTop: insets.top,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
-      paddingBottom: insets.bottom,
+  const measurementCategories = [
+    {
+      titleEn: 'Kameez / Kurta',
+      titleUr: 'قمیض / کرتہ',
+      icon: 'shirt-outline' as const,
+      fields: [
+        { en: 'Length', ur: 'لمبائی' },
+        { en: 'Shoulder (Tera)', ur: 'تیرا' },
+        { en: 'Sleeves (Bazu)', ur: 'بازو' },
+        { en: 'Collar (Gala)', ur: 'گلا' },
+        { en: 'Chest (Chati)', ur: 'چھاتی' },
+        { en: 'Waist (Kamar)', ur: 'کمر' },
+        { en: 'Daman / Ghera', ur: 'گھیرا / دامن' },
+      ],
     },
-    web: {
-      paddingTop: Spacing.six,
-      paddingBottom: Spacing.four,
+    {
+      titleEn: 'Shalwar / Trouser',
+      titleUr: 'شلوار / پاجامہ',
+      icon: 'layers-outline' as const,
+      fields: [
+        { en: 'Shalwar Length', ur: 'شلوار لمبائی' },
+        { en: 'Waist (Nefa)', ur: 'نیفہ / کمر' },
+        { en: 'Bottom (Paoncha)', ur: 'پانچہ' },
+        { en: 'Asan (Inseam)', ur: 'آسن / ران' },
+      ],
     },
-  });
+    {
+      titleEn: 'Coat / Waistcoat / Sherwani',
+      titleUr: 'کوٹ / واسکٹ / شیروانی',
+      icon: 'cut-outline' as const,
+      fields: [
+        { en: 'Coat Length', ur: 'کوٹ لمبائی' },
+        { en: 'Chest Cross', ur: 'چھاتی' },
+        { en: 'Back Width', ur: 'پشت' },
+        { en: 'Waist Fitting', ur: 'کمر' },
+        { en: 'Lapel & Style', ur: 'کالر اسٹائل' },
+      ],
+    },
+  ];
 
   return (
     <ScrollView
-      style={[styles.scrollView, { backgroundColor: theme.background }]}
-      contentInset={insets}
-      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
-      <ThemedView style={styles.container}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
-            This starter app includes example{'\n'}code to help you get started.
-          </ThemedText>
+      style={[styles.container, { backgroundColor: theme.background }]}
+      contentContainerStyle={[
+        styles.contentContainer,
+        {
+          paddingTop: Math.max(safeAreaInsets.top, Spacing.four),
+          paddingBottom: safeAreaInsets.bottom + BottomTabInset + Spacing.four,
+        },
+      ]}>
+      <View style={styles.contentWrapper}>
+        {/* Header with English on left, bold black Urdu on right */}
+        <View style={styles.header}>
+          <View style={styles.headerTitleRow}>
+            <Text style={[styles.title, { color: theme.text }]}>
+              Suit Measurements
+            </Text>
+            <Text style={styles.urduTitle}>سوٹ کی پیمائش</Text>
+          </View>
+          <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
+            Upcoming tailor measurement fields with bilingual labels (English left, Urdu bold black right).
+          </Text>
+        </View>
 
-          <ExternalLink href="https://docs.expo.dev" asChild>
-            <Pressable style={({ pressed }) => pressed && styles.pressed}>
-              <ThemedView type="backgroundElement" style={styles.linkButton}>
-                <ThemedText type="link">Expo documentation</ThemedText>
-                <SymbolView
-                  tintColor={theme.text}
-                  name={{ ios: 'arrow.up.right.square', android: 'link', web: 'link' }}
-                  size={12}
-                />
-              </ThemedView>
-            </Pressable>
-          </ExternalLink>
-        </ThemedView>
+        {/* Feature Cards */}
+        {measurementCategories.map((cat, idx) => (
+          <View
+            key={idx}
+            style={[
+              styles.card,
+              { backgroundColor: theme.card, borderColor: theme.border },
+            ]}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardHeaderLeft}>
+                <View style={styles.cardIconBox}>
+                  <Ionicons name={cat.icon} size={18} color="#FFFFFF" />
+                </View>
+                <Text style={[styles.cardTitle, { color: theme.text }]}>{cat.titleEn}</Text>
+              </View>
+              <Text style={styles.cardTitleUrdu}>{cat.titleUr}</Text>
+            </View>
 
-        <ThemedView style={styles.sectionsWrapper}>
-          <Collapsible title="File-based routing">
-            <ThemedText type="small">
-              This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
-              <ThemedText type="code">src/app/explore.tsx</ThemedText>
-            </ThemedText>
-            <ThemedText type="small">
-              The layout file in <ThemedText type="code">src/app/_layout.tsx</ThemedText> sets up
-              the tab navigator.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/router/introduction">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+            <View style={styles.fieldsList}>
+              {cat.fields.map((field, fIdx) => (
+                <View
+                  key={fIdx}
+                  style={[
+                    styles.fieldRow,
+                    {
+                      backgroundColor: theme.backgroundElement,
+                      borderColor: theme.border,
+                    },
+                  ]}>
+                  {/* Left side English */}
+                  <Text style={[styles.fieldEn, { color: theme.text }]}>
+                    {field.en}
+                  </Text>
 
-          <Collapsible title="Android, iOS, and web support">
-            <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
-              <ThemedText type="small">
-                You can open this project on Android, iOS, and the web. To open the web version,
-                press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
-                project.
-              </ThemedText>
-              <Image
-                source={require('@/assets/images/tutorial-web.png')}
-                style={styles.imageTutorial}
-              />
-            </ThemedView>
-          </Collapsible>
+                  {/* Right side Urdu in bold black */}
+                  <Text style={styles.fieldUrdu}>
+                    {field.ur}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        ))}
 
-          <Collapsible title="Images">
-            <ThemedText type="small">
-              For static images, you can use the <ThemedText type="code">@2x</ThemedText> and{' '}
-              <ThemedText type="code">@3x</ThemedText> suffixes to provide files for different
-              screen densities.
-            </ThemedText>
-            <Image source={require('@/assets/images/react-logo.png')} style={styles.imageReact} />
-            <ExternalLink href="https://reactnative.dev/docs/images">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Light and dark mode components">
-            <ThemedText type="small">
-              This template has light and dark mode support. The{' '}
-              <ThemedText type="code">useColorScheme()</ThemedText> hook lets you inspect what the
-              user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Animations">
-            <ThemedText type="small">
-              This template includes an example of an animated component. The{' '}
-              <ThemedText type="code">src/components/ui/collapsible.tsx</ThemedText> component uses
-              the powerful <ThemedText type="code">react-native-reanimated</ThemedText> library to
-              animate opening this hint.
-            </ThemedText>
-          </Collapsible>
-        </ThemedView>
-        {Platform.OS === 'web' && <WebBadge />}
-      </ThemedView>
+        {/* Info Box */}
+        <View style={[styles.infoBox, { backgroundColor: BrandColors.accentMuted }]}>
+          <Ionicons name="information-circle-outline" size={20} color={BrandColors.accent} />
+          <Text style={[styles.infoText, { color: BrandColors.primaryDark }]}>
+            All BaseInput labels and headers have English on the left and Urdu in bold black on the right!
+          </Text>
+        </View>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
+  container: {
     flex: 1,
   },
   contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  container: {
-    maxWidth: MaxContentWidth,
     flexGrow: 1,
-  },
-  titleContainer: {
-    gap: Spacing.three,
     alignItems: 'center',
     paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.six,
   },
-  centerText: {
-    textAlign: 'center',
-  },
-  pressed: {
-    opacity: 0.7,
-  },
-  linkButton: {
-    flexDirection: 'row',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
-    justifyContent: 'center',
-    gap: Spacing.one,
-    alignItems: 'center',
-  },
-  sectionsWrapper: {
-    gap: Spacing.five,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
-  },
-  collapsibleContent: {
-    alignItems: 'center',
-  },
-  imageTutorial: {
+  contentWrapper: {
     width: '100%',
-    aspectRatio: 296 / 171,
-    borderRadius: Spacing.three,
-    marginTop: Spacing.two,
+    maxWidth: 540,
   },
-  imageReact: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
+  header: {
+    marginBottom: Spacing.four,
+    width: '100%',
+  },
+  headerTitleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '800',
+    letterSpacing: -0.3,
+  },
+  urduTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  subtitle: {
+    fontSize: 13,
+    marginTop: 4,
+    lineHeight: 18,
+  },
+  card: {
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: Spacing.four,
+    marginBottom: Spacing.three,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 6,
+      },
+      android: {
+        elevation: 2,
+      },
+      web: {
+        boxShadow: '0 4px 14px rgba(0,0,0,0.04)',
+      } as any,
+    }),
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.three,
+  },
+  cardHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+  },
+  cardIconBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: BrandColors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  cardTitleUrdu: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  fieldsList: {
+    gap: 8,
+  },
+  fieldRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.three,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  fieldEn: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  fieldUrdu: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  infoBox: {
+    flexDirection: 'row',
+    padding: Spacing.three,
+    borderRadius: 12,
+    marginTop: Spacing.two,
+    gap: Spacing.two,
+    alignItems: 'flex-start',
+  },
+  infoText: {
+    fontSize: 12.5,
+    lineHeight: 18,
+    flex: 1,
+    fontWeight: '500',
   },
 });
